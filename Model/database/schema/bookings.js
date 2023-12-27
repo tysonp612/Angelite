@@ -28,10 +28,10 @@ const bookingsSchema = {
     enum: ["Processing", "Finished"],
     default: "Processing",
   },
-  time_of_booking: {
+  timeOfBooking: {
     type: Number,
   },
-  period: {
+  duration: {
     type: Number,
   },
 };
