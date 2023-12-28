@@ -66,7 +66,8 @@ exports.deleteBooking = async (req, res) => {
 };
 
 //edit a booking
-exports.updateBooking = async (req, res) => {
+//EDIT BOOKING NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
+exports.editBooking = async (req, res) => {
   try {
     const {
       id,

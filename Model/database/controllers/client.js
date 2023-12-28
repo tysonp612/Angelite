@@ -44,10 +44,10 @@ exports.findClient = async (req, res) => {
   }
 };
 
-exports.getAllFinshiedBookingsForClient = async (req, res) => {
+exports.getAllBookingsOfClient = async (req, res) => {
   try {
     const { clientId } = req.body;
-    const allClientFinishedBookings = await Bookings.find(
+    const allClientBookings = await Bookings.find(
       { client: clientId, status: "Finished" },
       "-__v"
     )
@@ -59,8 +59,51 @@ exports.getAllFinshiedBookingsForClient = async (req, res) => {
       .populate("timeOfBooking", "timeOfBooking")
       .sort({ date: -1 });
 
-    res.status(200).json(allClientFinishedBookings);
+    res.status(200).json(allClientBookings);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+//EDIT CLIENT NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
+exports.editClient = async (req, res) => {
+  try {
+    //Retrieve client id from request
+    const { clientId } = req.body;
+    // Find the client by ID
+    const client = await Client.findById(clientId);
+
+    if (!client) {
+      throw new Error("Client not found");
+    }
+
+    // Update client data
+    Object.assign(client, updatedData);
+
+    // Save the updated client
+    const updatedClient = await client.save();
+
+    return updatedClient;
+  } catch (error) {
+    throw new Error(`Error editing client: ${error.message}`);
+  }
+};
+
+// Function to delete a client
+exports.deleteClient=(clientId) =>{
+  try {
+    // Find the client by ID
+    const client = await Client.findById(clientId);
+
+    if (!client) {
+      throw new Error("Client not found");
+    }
+
+    // Delete the client
+    await client.remove();
+
+    res.status(200).json({ message: "Client deleted successfully" });
+  } catch (error) {
+    throw new Error(`Error deleting client: ${error.message}`);
+  }
+}
