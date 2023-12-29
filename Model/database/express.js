@@ -1,10 +1,9 @@
 // express.js
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-dotenv.config({ path: "Model/database/.env" });
+dotenv.config({ path: ".env" });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
