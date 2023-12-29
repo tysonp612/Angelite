@@ -8,15 +8,13 @@ dotenv.config({ path: "Model/database/.env" });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//applying server standard
 app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.DATABASE)
   .then(() => {
     console.log("Database connected");
   })
