@@ -35,6 +35,7 @@ exports.createBooking = async (req, res) => {
       duration,
       services,
       note,
+      price,
       timeOfBooking,
       note,
     }).save();
@@ -98,5 +99,27 @@ exports.editBooking = async (req, res) => {
     handleSuccess(res, "Booking edited successfully!");
   } catch (err) {
     handleServerError(res, err);
+  }
+};
+
+//get bookings of a client
+exports.getAllBookingsOfClient = async (req, res) => {
+  try {
+    const { clientId } = req.body;
+    const allClientBookings = await Bookings.find(
+      { client: clientId, status: "Finished" },
+      "-__v"
+    )
+      .populate("client", "first_name last_name number")
+      .populate("services", "service")
+      .populate("date", "date")
+      .populate("price", "price")
+      .populate("note", "note")
+      .populate("timeOfBooking", "timeOfBooking")
+      .sort({ date: -1 });
+
+    res.status(200).json(allClientBookings);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

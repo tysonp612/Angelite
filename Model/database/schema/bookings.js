@@ -19,6 +19,7 @@ const bookingsSchema = {
   ],
   price: {
     type: Number,
+    default: 0,
   },
   note: {
     type: String,

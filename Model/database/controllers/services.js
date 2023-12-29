@@ -2,8 +2,8 @@ const Services = require("./../schema/services");
 
 exports.createService = async (req, res) => {
   try {
-    const { service, price } = req.body.serviceData;
-    const service = await Services.create({ service, price });
+    const { service, price, color } = req.body.serviceData;
+    const service = await Services.create({ service, price, color });
     res.status(201).json({ service, message: "Service created" });
   } catch (error) {
     res.status(500).json({ message: error.message });

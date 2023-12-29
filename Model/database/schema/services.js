@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+
 const servicesSchema = new mongoose.Schema({
   service: {
     type: String,
@@ -9,6 +9,10 @@ const servicesSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, "Each service must have a price"],
+  },
+  color: {
+    type: String,
+    require: [true, "Each service must have a color"],
   },
 });
 

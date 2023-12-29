@@ -44,26 +44,7 @@ exports.findClient = async (req, res) => {
   }
 };
 
-exports.getAllBookingsOfClient = async (req, res) => {
-  try {
-    const { clientId } = req.body;
-    const allClientBookings = await Bookings.find(
-      { client: clientId, status: "Finished" },
-      "-__v"
-    )
-      .populate("client", "first_name last_name number")
-      .populate("services", "service")
-      .populate("date", "date")
-      .populate("price", "price")
-      .populate("note", "note")
-      .populate("timeOfBooking", "timeOfBooking")
-      .sort({ date: -1 });
 
-    res.status(200).json(allClientBookings);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
 
 //EDIT CLIENT NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
 exports.editClient = async (req, res) => {
