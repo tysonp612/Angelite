@@ -1,4 +1,5 @@
-const Bookings = require("./../schema/bookings");
+const { findById } = require("../schema/bookings");
+const Bookings = require("../schema/bookings");
 
 //options to populate(includes) when querying for bookings
 const populateOptions = [
@@ -66,6 +67,16 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 
+exports.getOneBooking = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const booking = await findById(id).populate(populateOptions);
+    res.status(200).json(bookings);
+  } catch (err) {
+    handleServerError(res, err);
+  }
+};
+
 //edit a booking
 //EDIT BOOKING NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
 exports.editBooking = async (req, res) => {
@@ -103,7 +114,7 @@ exports.editBooking = async (req, res) => {
 };
 
 //get bookings of a client
-exports.getAllBookingsOfClient = async (req, res) => {
+exports.getClientBookings = async (req, res) => {
   try {
     const { clientId } = req.body;
     const allClientBookings = await Bookings.find(

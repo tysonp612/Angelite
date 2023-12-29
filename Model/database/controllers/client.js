@@ -1,5 +1,5 @@
 const Client = require("./../schema/client");
-const Bookings = require("./../schema/bookings");
+
 
 exports.createClient = async (req, res) => {
   try {
