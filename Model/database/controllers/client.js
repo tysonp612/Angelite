@@ -85,7 +85,7 @@ exports.editClient = async (req, res) => {
 
     return updatedClient;
   } catch (error) {
-    throw new Error(`Error editing client: ${error.message}`);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -104,6 +104,6 @@ exports.deleteClient=(clientId) =>{
 
     res.status(200).json({ message: "Client deleted successfully" });
   } catch (error) {
-    throw new Error(`Error deleting client: ${error.message}`);
+    res.status(500).json({ message: err.message });
   }
 }
