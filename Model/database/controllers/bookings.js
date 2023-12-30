@@ -28,7 +28,7 @@ exports.createBooking = async (req, res) => {
       services,
       price,
       note,
-    } = req.body.data;
+    } = req.body.bookingData;
     const servicesArr = services.map((s) => s._id);
     const booking = await new Bookings({
       client,
@@ -59,7 +59,7 @@ exports.getAllBookings = async (req, res) => {
 };
 exports.deleteBooking = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { bookingId } = req.body;
     await findByIdAndDelete(id);
     handleSuccess(res, "Booking deleted successfully!");
   } catch (err) {
@@ -69,7 +69,7 @@ exports.deleteBooking = async (req, res) => {
 
 exports.getOneBooking = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { bookingId } = req.body;
     const booking = await findById(id).populate(populateOptions);
     res.status(200).json(bookings);
   } catch (err) {
@@ -90,7 +90,7 @@ exports.editBooking = async (req, res) => {
       services,
       price,
       note,
-    } = req.body.data;
+    } = req.body.bookingData;
     const servicesArr = services.map((s) => s._id);
 
     await findByIdAndUpdate(
@@ -117,10 +117,7 @@ exports.editBooking = async (req, res) => {
 exports.getClientBookings = async (req, res) => {
   try {
     const { clientId } = req.body;
-    const allClientBookings = await Bookings.find(
-      { client: clientId, status: "Finished" },
-      "-__v"
-    )
+    const allClientBookings = await Bookings.find({ client: clientId }, "-__v")
       .populate("client", "first_name last_name number")
       .populate("services", "service")
       .populate("date", "date")

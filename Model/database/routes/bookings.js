@@ -8,3 +8,4 @@ router.route("/getAllBookings").get(bookingsController.getAllBookings);
 router.route("/getOneBooking").get(bookingsController.getOneBooking);
 router.route("/editBooking").post(bookingsController.editBooking);
 router.route("/getClientBookings").post(bookingsController.getClientBookings);
+router.route("/deleteBooking").post(bookingsController.deleteBooking);
