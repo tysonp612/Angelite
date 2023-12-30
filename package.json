@@ -25,7 +25,8 @@
   "devDependencies": {
     "@babel/core": "^7.23.6",
     "@babel/node": "^7.22.19",
-    "@babel/preset-env": "^7.23.6"
+    "@babel/preset-env": "^7.23.6",
+    "react-native-dotenv": "^3.4.9"
   },
   "private": true,
   "presets": [

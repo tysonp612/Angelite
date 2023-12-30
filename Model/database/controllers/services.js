@@ -21,8 +21,8 @@ exports.getAllServices = async (req, res) => {
 
 exports.deleteService = async (req, res) => {
   try {
-    const { id } = req.body;
-    const serviceToDelete = await Services.findByIdAndDelete(id);
+    const { serviceId } = req.body;
+    const serviceToDelete = await Services.findByIdAndDelete(serviceId);
 
     if (serviceToDelete) {
       res.status(200).json({ message: "Service deleted successfully" });
@@ -35,17 +35,34 @@ exports.deleteService = async (req, res) => {
   }
 };
 
+exports.findService = async (req, res) => {
+  try {
+    const { serviceId } = req.body;
+    const service = await Services.findById(serviceId);
+    if (service) {
+      res
+        .status(200)
+        .json({ message: "Service deleted successfully", service });
+    } else {
+      res.status(404).json({ message: "Service not found" });
+    }
+  } catch (err) {
+    console.error("Error finding service:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 //THIS EDIT NEEDS TO BE TESTED AND CHANGED TO REDUCE BANDWIDTH FOR UPDATING DATA
 exports.editService = async (req, res) => {
   try {
-    const { id, updatedServiceData } = req.body;
+    const { id, serviceData } = req.body;
     if (!id) {
       return res
         .status(400)
         .json({ message: "Service ID is required for editing" });
     }
     //find the service by ID
-    const service = await Services.findByIdAndUpdate(id, updateServiceData, {
+    const service = await Services.findByIdAndUpdate(id, serviceData, {
       new: true,
     });
     //Check if service was found and updated
