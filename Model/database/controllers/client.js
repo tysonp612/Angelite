@@ -46,11 +46,11 @@ exports.findClient = async (req, res) => {
 
 
 
-//EDIT CLIENT NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
+//TODO: EDIT CLIENT NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
 exports.editClient = async (req, res) => {
   try {
     //Retrieve client id from request
-    const { clientId } = req.body;
+    const { clientId,updatedData } = req.body;
     // Find the client by ID
     const client = await Client.findById(clientId);
 
