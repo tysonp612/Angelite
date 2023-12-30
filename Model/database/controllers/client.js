@@ -1,7 +1,6 @@
-const Client = require("./../schema/client");
+import Client from "./../schema/client.js";
 
-
-exports.createClient = async (req, res) => {
+export const createClient = async (req, res) => {
   try {
     const { first_name, last_name, number, email } = req.body.data;
     const newClient = await new Client({
@@ -20,7 +19,7 @@ exports.createClient = async (req, res) => {
   }
 };
 
-exports.findClient = async (req, res) => {
+export const findClient = async (req, res) => {
   try {
     const { keyword } = req.body;
     const terms = keyword.split(" ");
@@ -44,13 +43,10 @@ exports.findClient = async (req, res) => {
   }
 };
 
-
-
-//TODO: EDIT CLIENT NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
-exports.editClient = async (req, res) => {
+export const editClient = async (req, res) => {
   try {
-    //Retrieve client id from request
-    const { clientId,updatedData } = req.body;
+    // Retrieve client id from request
+    const { clientId, updatedData } = req.body;
     // Find the client by ID
     const client = await Client.findById(clientId);
 
@@ -64,15 +60,16 @@ exports.editClient = async (req, res) => {
     // Save the updated client
     const updatedClient = await client.save();
 
-    return updatedClient;
-  } catch (error) {
+    res.status(200).json(updatedClient);
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Function to delete a client
-exports.deleteClient=(clientId) =>{
+export const deleteClient = async (req, res) => {
   try {
+    // Retrieve client id from request
+    const { clientId } = req.body;
     // Find the client by ID
     const client = await Client.findById(clientId);
 
@@ -84,7 +81,16 @@ exports.deleteClient=(clientId) =>{
     await client.remove();
 
     res.status(200).json({ message: "Client deleted successfully" });
-  } catch (error) {
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
+};
+
+const clientController = {
+  createClient,
+  findClient,
+  editClient,
+  deleteClient,
+};
+
+export default clientController;

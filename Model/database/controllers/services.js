@@ -1,25 +1,25 @@
-const Services = require("./../schema/services");
+import Services from "./../schema/services.js";
 
-exports.createService = async (req, res) => {
+export const createService = async (req, res) => {
   try {
     const { service, price, color } = req.body.serviceData;
-    const service = await Services.create({ service, price, color });
-    res.status(201).json({ service, message: "Service created" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const newService = await Services.create({ service, price, color });
+    res.status(201).json({ service: newService, message: "Service created" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-exports.getAllServices = async (req, res) => {
+export const getAllServices = async (req, res) => {
   try {
     const services = await Services.find();
     res.status(200).json({ services });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-exports.deleteService = async (req, res) => {
+export const deleteService = async (req, res) => {
   try {
     const { serviceId } = req.body;
     const serviceToDelete = await Services.findByIdAndDelete(serviceId);
@@ -29,31 +29,29 @@ exports.deleteService = async (req, res) => {
     } else {
       res.status(404).json({ message: "Service not found" });
     }
-  } catch (error) {
-    console.error("Error deleting service:", error.message);
+  } catch (err) {
+    console.error("Error deleting service:", err.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-exports.findService = async (req, res) => {
+export const findService = async (req, res) => {
   try {
     const { serviceId } = req.body;
     const service = await Services.findById(serviceId);
     if (service) {
-      res
-        .status(200)
-        .json({ message: "Service deleted successfully", service });
+      res.status(200).json({ message: "Service found successfully", service });
     } else {
       res.status(404).json({ message: "Service not found" });
     }
   } catch (err) {
-    console.error("Error finding service:", error.message);
+    console.error("Error finding service:", err.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-//THIS EDIT NEEDS TO BE TESTED AND CHANGED TO REDUCE BANDWIDTH FOR UPDATING DATA
-exports.editService = async (req, res) => {
+// THIS EDIT NEEDS TO BE TESTED AND CHANGED TO REDUCE BANDWIDTH FOR UPDATING DATA
+export const editService = async (req, res) => {
   try {
     const { id, serviceData } = req.body;
     if (!id) {
@@ -61,11 +59,11 @@ exports.editService = async (req, res) => {
         .status(400)
         .json({ message: "Service ID is required for editing" });
     }
-    //find the service by ID
+    // find the service by ID
     const service = await Services.findByIdAndUpdate(id, serviceData, {
       new: true,
     });
-    //Check if service was found and updated
+    // Check if service was found and updated
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }
@@ -75,3 +73,13 @@ exports.editService = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+const servicesController = {
+  createService,
+  getAllServices,
+  deleteService,
+  findService,
+  editService,
+};
+
+export default servicesController;

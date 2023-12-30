@@ -1,9 +1,10 @@
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+import mongoose from "mongoose";
 
-const bookingsSchema = {
+const { Schema } = mongoose;
+
+const bookingsSchema = new Schema({
   client: {
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Client",
   },
   date: {
@@ -12,7 +13,7 @@ const bookingsSchema = {
   services: [
     {
       _id: {
-        type: ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Services",
       },
     },
@@ -35,5 +36,6 @@ const bookingsSchema = {
   duration: {
     type: Number,
   },
-};
-module.exports = mongoose.model("Bookings", bookingsSchema);
+});
+
+export default mongoose.model("Bookings", bookingsSchema);

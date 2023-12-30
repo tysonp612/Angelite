@@ -1,14 +1,12 @@
-const { findById } = require("../schema/bookings");
-const Bookings = require("../schema/bookings");
+import Bookings from "./../schema/bookings.js";
 
-//options to populate(includes) when querying for bookings
+// Options to populate (includes) when querying for bookings
 const populateOptions = [
   { path: "client", select: "first_name last_name number" },
   { path: "services._id", model: "Services", select: "service price" },
 ];
 
-//handle success response and error response
-
+// Handle success response and error response
 const handleSuccess = (res, message) => {
   res.status(200).json({ message });
 };
@@ -17,8 +15,8 @@ const handleServerError = (res, err) => {
   res.status(500).json({ message: "Server error. Please try again" });
 };
 
-//create booking
-exports.createBooking = async (req, res) => {
+// Create booking
+export const createBooking = async (req, res) => {
   try {
     const {
       client,
@@ -29,8 +27,9 @@ exports.createBooking = async (req, res) => {
       price,
       note,
     } = req.body.bookingData;
+
     const servicesArr = services.map((s) => s._id);
-    const booking = await new Bookings({
+    await new Bookings({
       client,
       date,
       duration,
@@ -40,46 +39,47 @@ exports.createBooking = async (req, res) => {
       timeOfBooking,
       note,
     }).save();
+
     handleSuccess(res, "A reservation has been created successfully!");
   } catch (err) {
     handleServerError(res, err);
   }
 };
 
-//get all bookings of a day
-exports.getAllBookings = async (req, res) => {
+// Get all bookings of a day
+export const getAllBookings = async (req, res) => {
   try {
     const { date } = req.body;
-
     const bookings = await Bookings.find({ date }).populate(populateOptions);
     res.status(200).json(bookings);
   } catch (err) {
     handleServerError(res, err);
   }
 };
-exports.deleteBooking = async (req, res) => {
+
+export const deleteBooking = async (req, res) => {
   try {
     const { bookingId } = req.body;
-    await findByIdAndDelete(id);
+    await findByIdAndDelete(bookingId);
     handleSuccess(res, "Booking deleted successfully!");
   } catch (err) {
     handleServerError(res, err);
   }
 };
 
-exports.getOneBooking = async (req, res) => {
+export const getOneBooking = async (req, res) => {
   try {
     const { bookingId } = req.body;
-    const booking = await findById(id).populate(populateOptions);
-    res.status(200).json(bookings);
+    const booking = await findById(bookingId).populate(populateOptions);
+    res.status(200).json(booking);
   } catch (err) {
     handleServerError(res, err);
   }
 };
 
-//edit a booking
-//EDIT BOOKING NEEDES TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
-exports.editBooking = async (req, res) => {
+// Edit a booking
+// EDIT BOOKING NEEDS TO BE TESTED TO REMOVE UNNECESSARY DATA SENT
+export const editBooking = async (req, res) => {
   try {
     const {
       id,
@@ -91,8 +91,8 @@ exports.editBooking = async (req, res) => {
       price,
       note,
     } = req.body.bookingData;
-    const servicesArr = services.map((s) => s._id);
 
+    const servicesArr = services.map((s) => s._id);
     await findByIdAndUpdate(
       id,
       {
@@ -113,8 +113,8 @@ exports.editBooking = async (req, res) => {
   }
 };
 
-//get bookings of a client
-exports.getClientBookings = async (req, res) => {
+// Get bookings of a client
+export const getClientBookings = async (req, res) => {
   try {
     const { clientId } = req.body;
     const allClientBookings = await Bookings.find({ client: clientId }, "-__v")
@@ -131,3 +131,15 @@ exports.getClientBookings = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Export the default controller
+const bookingsController = {
+  createBooking,
+  getAllBookings,
+  deleteBooking,
+  getOneBooking,
+  editBooking,
+  getClientBookings,
+};
+
+export default bookingsController;

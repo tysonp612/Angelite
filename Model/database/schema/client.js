@@ -1,6 +1,8 @@
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
-const clientSchema = mongoose.Schema(
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
+
+const clientSchema = new Schema(
   {
     first_name: {
       type: String,
@@ -34,13 +36,12 @@ const clientSchema = mongoose.Schema(
     },
     bookings: [
       {
-        type: ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Bookings",
       },
     ],
   },
-
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Client", clientSchema);
+export default mongoose.model("Client", clientSchema);
