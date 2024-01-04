@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import GridContainer from "./View/GridContainer";
+
 import Header from "./View/Header";
 
 export default function App() {
