@@ -1,25 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import GridContainer from "./View/GridContainer";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Header from "./View/Header";
+import Navigation from "./View/navigation/navigation";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Header title="My React Native App" />
-      <Text>Open up App.js to start working on your app!</Text>
-      <GridContainer />
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <Navigation />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
