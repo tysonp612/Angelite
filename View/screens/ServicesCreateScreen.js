@@ -8,8 +8,8 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 
+import DurationPicker from "./../components/services/durationPicker";
 const ServiceCreateScreen = () => {
   const [serviceName, setServiceName] = useState("");
   const [price, setPrice] = useState("");
@@ -28,8 +28,6 @@ const ServiceCreateScreen = () => {
       setIsPickerVisible(false);
     }
   };
-  // const toggleDurationPicker = () =>
-  //   setIsDurationPickerVisible(!isDurationPickerVisible);
 
   const handleColorChange = (selectedColor) => {
     setColor(selectedColor);
@@ -50,43 +48,6 @@ const ServiceCreateScreen = () => {
   //     <Picker.Item label="Green" value="green" />
   //   </Picker>
   // );
-
-  const renderDurationPicker = () => (
-    <View style={styles.pickerWrapper}>
-      <View style={styles.pickerContainer}>
-        <Text style={styles.pickerText}>Hour:</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={duration.hours}
-          onValueChange={(itemValue) =>
-            handleDurationChange(itemValue, duration.minutes)
-          }
-        >
-          <Picker.Item label="1 hour" value="1" />
-          <Picker.Item label="2 hours" value="2" />
-          <Picker.Item label="3 hours" value="3" />
-          {/* Add more duration options as needed */}
-        </Picker>
-      </View>
-
-      <View style={styles.pickerContainer}>
-        <Text style={styles.pickerText}>minutes:</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={duration.minutes}
-          onValueChange={(itemValue) =>
-            handleDurationChange(duration.hours, itemValue)
-          }
-        >
-          <Picker.Item label="0 minutes" value="0" />
-          <Picker.Item label="15 minutes" value="15" />
-          <Picker.Item label="30 minutes" value="30" />
-          <Picker.Item label="45 minutes" value="45" />
-          {/* Add more duration options as needed */}
-        </Picker>
-      </View>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -137,8 +98,16 @@ const ServiceCreateScreen = () => {
             ""
           )}
         </View>
-
-        {isPickerVisible ? renderDurationPicker() : ""}
+        {/* show the expaned picker component for hour and miniute based on isPickerVisible  */}
+        {isPickerVisible ? (
+          <DurationPicker
+            hours={duration.hours}
+            minutes={duration.minutes}
+            onDurationChange={handleDurationChange}
+          />
+        ) : (
+          ""
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -147,6 +116,9 @@ const ServiceCreateScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    backgroundColor: "#ffff",
+    height: "100%",
+    width: "100%",
   },
   label: {
     fontSize: 16,
@@ -167,6 +139,10 @@ const styles = StyleSheet.create({
     padding: 8,
     minHeight: 40,
   },
+  durationInfoContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   durationInfo: {
     padding: 10,
     fontSize: 17,
@@ -176,29 +152,6 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 15,
-  },
-  pickerContainer: {
-    flex: 1,
-    width: "100%",
-    flexDirection: "column",
-  },
-  picker: {
-    width: "100%",
-  },
-  pickerWrapper: {
-    flexDirection: "row",
-    paddingTop: 10,
-  },
-  pickerText: {
-    fontSize: 17,
-    textAlign: "center",
-  },
-  durationInfoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  pickerCloseButton: {
-    textAlign: "right",
   },
 });
 
