@@ -1,10 +1,17 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const Button = () => {
+const Button = ({ state }) => {
+  const navigation = useNavigation();
+  const navigateTo = () => {
+    if (state === "createService") {
+      navigation.navigate("ServicesCreate");
+    }
+  };
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigateTo(state)}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
     </View>

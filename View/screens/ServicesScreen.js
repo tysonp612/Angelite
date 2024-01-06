@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import ServiceContainer from "./../components/services/container";
-import Button from "./../components/button";
+import Button from "../components/buttonComponent";
 const ServicesScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
@@ -26,7 +26,7 @@ const ServicesScreen = ({ navigation }) => {
           <ServiceContainer />
         </View>
       </ScrollView>
-      <Button />
+      <Button state="createService" />
     </View>
   );
 };
