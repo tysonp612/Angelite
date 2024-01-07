@@ -8,8 +8,9 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import DurationPicker from "./../components/services/durationPicker";
+import ColorPickerScreen from "./ColorPickerScreen";
 const ServiceCreateScreen = () => {
   const [serviceName, setServiceName] = useState("");
   const [price, setPrice] = useState("");
@@ -17,7 +18,7 @@ const ServiceCreateScreen = () => {
   const [color, setColor] = useState("red");
   const [duration, setDuration] = useState({ hours: "1", minutes: "30" });
   const [isPickerVisible, setIsPickerVisible] = useState(false);
-
+  const navigation = useNavigation();
   const openPicker = () => {
     if (isPickerVisible === false) {
       setIsPickerVisible(true);
@@ -29,28 +30,21 @@ const ServiceCreateScreen = () => {
     }
   };
 
-  const handleColorChange = (selectedColor) => {
-    setColor(selectedColor);
-    togglePicker();
+  const handlePriceChange = (text) => {
+    // Check if the text is numeric
+    if (/^\d*\.?\d*$/.test(text)) {
+      setPrice(text);
+    }
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
     setDuration({ hours: selectedHours, minutes: selectedMinutes });
   };
 
-  // const renderColorPicker = () => (
-  //   <Picker
-  //     selectedValue={color}
-  //     onValueChange={(itemValue) => handleColorChange(itemValue)}
-  //   >
-  //     <Picker.Item label="Red" value="red" />
-  //     <Picker.Item label="Blue" value="blue" />
-  //     <Picker.Item label="Green" value="green" />
-  //   </Picker>
-  // );
-
   return (
     <View style={styles.container}>
+      {/* ######################  NAME ################### */}
+
       <Text style={styles.label}>Service Name:</Text>
       <TextInput
         style={styles.input}
@@ -58,31 +52,40 @@ const ServiceCreateScreen = () => {
         onChangeText={(text) => setServiceName(text)}
       />
 
-      <Text style={styles.label}>Price:</Text>
-      <TextInput
-        style={styles.input}
-        value={price}
-        onChangeText={(text) => setPrice(text)}
-        keyboardType="numeric"
-      />
-
-      <Text style={styles.label}>Description:</Text>
+      {/* ###################### DESCRIPTION ################### */}
+      <Text style={styles.label}>Description (optional): </Text>
       <TextInput
         style={styles.input}
         value={description}
         onChangeText={(text) => setDescription(text)}
       />
 
+      {/* ###################### {PRICE} ################### */}
+      <Text style={styles.label}>Price:</Text>
+      <TextInput
+        style={styles.input}
+        value={price}
+        onChangeText={handlePriceChange}
+        keyboardType="numeric"
+      />
+
+      {/* ######################  COLOR ################### */}
       <Text style={styles.label}>Color:</Text>
 
-      {/* colour component */}
-      {/* <View style={styles.modalContainer}>
-        <TouchableOpacity style={styles.input} onPress={() => togglePicker()}>
-          <Text>{color}</Text>
-        </TouchableOpacity>
-        {isPickerVisible ? renderColorPicker() : ""}
-      </View> */}
+      <TouchableOpacity
+        style={styles.colorInput}
+        onPress={() =>
+          navigation.navigate("Color Picker", {
+            setColor: setColor,
+            color: color,
+          })
+        }
+      >
+        <View style={[styles.colorPreview, { backgroundColor: color }]} />
+        <Text>{color}</Text>
+      </TouchableOpacity>
 
+      {/* ###################### DURATION ################### */}
       <Text style={styles.label}>Duration:</Text>
       <TouchableOpacity
         style={styles.durationInput}
@@ -152,6 +155,22 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     borderRadius: 15,
+  },
+  colorPreview: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginRight: 8,
+  },
+  colorInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 15,
+    marginBottom: 16,
+    padding: 8,
   },
 });
 

@@ -6,7 +6,7 @@ const Button = ({ state }) => {
   const navigation = useNavigation();
   const navigateTo = () => {
     if (state === "createService") {
-      navigation.navigate("ServicesCreate");
+      navigation.navigate("Services Create");
     }
   };
   return (
