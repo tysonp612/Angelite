@@ -1,5 +1,6 @@
 //React
 import React, { useState, useEffect } from "react";
+import DropdownAlert from "react-native-dropdownalert";
 import {
   View,
   Text,
@@ -14,13 +15,13 @@ import { useNavigation } from "@react-navigation/native";
 //Component
 import DurationPicker from "./../components/services/durationPicker";
 import GeneralButton from "./../components/generalButton";
-
+import { alertManager } from "./../../Model/AlertManager";
 const ServiceCreateScreen = () => {
   const [serviceName, setServiceName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState("red");
-  const [duration, setDuration] = useState({ hours: "1", minutes: "30" });
+  const [duration, setDuration] = useState({ hours: "1", minutes: "0" });
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const navigation = useNavigation();
   const openPicker = () => {
@@ -41,12 +42,12 @@ const ServiceCreateScreen = () => {
     }
   };
 
-  const handleDurationChange = (selectedHours, selectedMinutes) => {
-    setDuration({ hours: selectedHours, minutes: selectedMinutes });
+  const handleButtonPress = async () => {
+    await alertManager.showAlert("error", "OOps", "check error handling");
   };
 
-  const handleButtonPress = () => {
-    console.log("SERVICE SUBMITTED");
+  const handleDurationChange = (selectedHours, selectedMinutes) => {
+    setDuration({ hours: selectedHours, minutes: selectedMinutes });
   };
 
   return (
@@ -121,7 +122,10 @@ const ServiceCreateScreen = () => {
         )}
       </TouchableOpacity>
 
-      <GeneralButton title="Submit Service" onPress={handleButtonPress} />
+      <GeneralButton
+        title="Submit Service"
+        onPress={() => handleButtonPress()}
+      />
     </View>
   );
 };

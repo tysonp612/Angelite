@@ -1,10 +1,18 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { View } from "react-native";
+import { alertManager } from "./Model/AlertManager";
 import Navigation from "./View/navigation/navigation";
-
+import DropdownAlert from "react-native-dropdownalert";
 export default function App() {
-  return <Navigation />;
+  return (
+    <View style={{ flex: 1 }}>
+      <Navigation />
+      <DropdownAlert
+        alert={(func) =>
+          // Set the alert function in AlertManager.
+          // This function is provided by DropdownAlert and is used to display alerts.
+          alertManager.setAlertFunction(func)
+        }
+      />
+    </View>
+  );
 }
