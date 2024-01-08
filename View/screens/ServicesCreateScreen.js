@@ -1,3 +1,4 @@
+//React
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -9,8 +10,11 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+//Component
 import DurationPicker from "./../components/services/durationPicker";
-import ColorPickerScreen from "./ColorPickerScreen";
+import GeneralButton from "./../components/generalButton";
+
 const ServiceCreateScreen = () => {
   const [serviceName, setServiceName] = useState("");
   const [price, setPrice] = useState("");
@@ -39,6 +43,10 @@ const ServiceCreateScreen = () => {
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
     setDuration({ hours: selectedHours, minutes: selectedMinutes });
+  };
+
+  const handleButtonPress = () => {
+    console.log("SERVICE SUBMITTED");
   };
 
   return (
@@ -112,6 +120,8 @@ const ServiceCreateScreen = () => {
           ""
         )}
       </TouchableOpacity>
+
+      <GeneralButton title="Submit Service" onPress={handleButtonPress} />
     </View>
   );
 };
@@ -141,6 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 8,
     minHeight: 40,
+    marginBottom: 40,
   },
   durationInfoContainer: {
     flexDirection: "row",

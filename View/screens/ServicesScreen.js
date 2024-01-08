@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 import ServiceContainer from "./../components/services/container";
-import Button from "../components/buttonComponent";
+import Button from "../components/addButton";
 const ServicesScreen = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
