@@ -4,7 +4,7 @@ import { API_URL } from "@env";
 import axios from "axios";
 
 export const createService = async (serviceData) => {
-  console.log(`${API_URL}/services/createService`);
+  
   return await axios.post(`${API_URL}/services/createService`, {
     serviceData: serviceData,
   });

@@ -10,7 +10,7 @@ import {
   View,
   Text,
   TextInput,
-  Modal,
+  ScrollView,
   TouchableOpacity,
   Button,
   StyleSheet,
@@ -58,6 +58,7 @@ const ServiceCreateScreen = () => {
     const serviceData = {
       service:serviceName,
       price:parseFloat(price),
+      description:description,
       color:color,
       duration:parseInt(duration.hours)*60+parseInt(duration.minutes)
     }
@@ -66,9 +67,9 @@ const ServiceCreateScreen = () => {
       await alertManager.showAlert("success", "Success", "Service created successfully");
       
     }catch(err){
-      alertManager.showAlert("error", "Error", err.message);
+      alertManager.showAlert("error", "Error", "Validation failed!");
     }
-  
+  alertManager;
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
@@ -77,7 +78,9 @@ const ServiceCreateScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* ######################  NAME ################### */}
+     
+    <ScrollView>
+       {/* ######################  NAME ################### */}
 
       <Text style={styles.label}>Service Name:</Text>
       <TextInput
@@ -151,6 +154,7 @@ const ServiceCreateScreen = () => {
         title="Submit Service"
         onPress={() => handleSubmit()}
       />
+    </ScrollView> 
     </View>
   );
 };

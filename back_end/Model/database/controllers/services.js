@@ -2,12 +2,11 @@ import Services from "../schema/services.js";
 
 export const createService = async (req, res) => {
   try {
-    const { service, price, color, duration } = req.body.serviceData;
-    const newService = await Services.create({ service, price, color, duration });
+    const { service, price, description, color, duration } = req.body.serviceData;
+    const newService = await Services.create({ service, price,description, color, duration });
     res.status(201).json({ service: newService, message: "Service created" });
-    console.log("TOUCH");
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err._message });
   }
 };
 

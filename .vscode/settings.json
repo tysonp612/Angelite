@@ -1,0 +1,8 @@
+{
+    "prettier.enableDebugLogs": true,
+    "prettier.endOfLine": "auto",
+    "prettier.useTabs": true,
+    "javascript.format.semicolons": "insert",
+    "javascript.inlayHints.enumMemberValues.enabled": true,
+    "editor.formatOnSave": true
+}
