@@ -5,6 +5,7 @@ export const createService = async (req, res) => {
     const { service, price, color, duration } = req.body.serviceData;
     const newService = await Services.create({ service, price, color, duration });
     res.status(201).json({ service: newService, message: "Service created" });
+    console.log("TOUCH");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

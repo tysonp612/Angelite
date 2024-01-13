@@ -1,19 +1,18 @@
 import express from "express";
 import mongoose from "mongoose";
-
-import { readdirSync } from "fs";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config({ path: "back_end/.env" });
+
 
 // Importing routes
 import bookingsRouter from "./routes/bookings.js";
 import clientRouter from "./routes/client.js";
 import servicesRouter from "./routes/services.js";
 
-//import data from @env
-import { DATABASE, STANDARD_PORT } from "@env";
 
 const app = express();
-const PORT = STANDARD_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 // Applying server standard
 app.use(cors());
 app.use(express.json());
@@ -29,7 +28,7 @@ app.use("/api/services", servicesRouter);
 
 // Connect to MongoDB
 mongoose
-  .connect(DATABASE)
+  .connect(process.env.DATABASE)
   .then(() => {
     console.log("Database connected");
   })
@@ -40,3 +39,5 @@ mongoose
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
+
+

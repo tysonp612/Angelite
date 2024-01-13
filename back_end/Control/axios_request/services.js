@@ -2,13 +2,13 @@
 import { API_URL } from "@env";
 
 import axios from "axios";
-// import { findDotEnv } from "Helper/findDotEnv.js";
 
 export const createService = async (serviceData) => {
-  return await axios.post(`${API_URL}/createService`, {
+  console.log(`${API_URL}/services/createService`);
+  return await axios.post(`${API_URL}/services/createService`, {
     serviceData: serviceData,
   });
-};
+}
 
 export const findService = async (serviceId) => {
   return await axios.post(`${API_URL}/findService`, {

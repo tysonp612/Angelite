@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "expo start",
-    "startsv": "nodemon --exec babel-node Model/database/express.js",
+    "startsv": "nodemon --exec babel-node back_end/Model/database/express.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"

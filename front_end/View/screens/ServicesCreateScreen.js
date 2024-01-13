@@ -21,7 +21,7 @@ import DurationPicker from "../components/services/durationPicker";
 import GeneralButton from "../components/generalButton";
 import { alertManager } from "../../../back_end/Model/AlertManager";
 //axios
-import createService from '../../../back_end/Control/axios_request/services'
+import {createService} from './../../../back_end/Control/axios_request/services'
 
 
 const ServiceCreateScreen = () => {
@@ -55,21 +55,19 @@ const ServiceCreateScreen = () => {
   };
 
   const handleSubmit = async () => {
-    await alertManager.showAlert("error", "OOps", "check error handling");
-
     const serviceData = {
       service:serviceName,
       price:parseFloat(price),
       color:color,
       duration:parseInt(duration.hours)*60+parseInt(duration.minutes)
     }
-    console.log(API_URL);
-    // try{
-    //   const response = await createService(serviceData);
-    //   alertManager.showAlert("success", "Success", "Service created successfully");
-    // }catch(err){
-    //   alertManager.showAlert("error", "Error", err.message);
-    // }
+    try{
+      const response = await createService(serviceData);
+      alertManager.showAlert("success", "Success", "Service created successfully");
+    }catch(err){
+      alertManager.showAlert("error", "Error", err.message);
+    }
+    console.log("HEY");
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
