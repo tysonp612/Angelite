@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 //Component
 import DurationPicker from "../components/services/durationPicker";
 import GeneralButton from "../components/generalButton";
-import { alertManager } from "../../../back_end/Model/AlertManager";
+import { alertManager } from "../../../Helper/AlertManager";
 //axios
 import {createService} from './../../../back_end/Control/axios_request/services'
 
@@ -35,7 +35,7 @@ const ServiceCreateScreen = () => {
   const navigation = useNavigation();
 
 
-  //merthods
+  //methods
   const openPicker = () => {
     if (isPickerVisible === false) {
       setIsPickerVisible(true);
@@ -63,11 +63,12 @@ const ServiceCreateScreen = () => {
     }
     try{
       const response = await createService(serviceData);
-      alertManager.showAlert("success", "Success", "Service created successfully");
+      await alertManager.showAlert("success", "Success", "Service created successfully");
+      
     }catch(err){
       alertManager.showAlert("error", "Error", err.message);
     }
-    console.log("HEY");
+  
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
