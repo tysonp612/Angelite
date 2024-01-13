@@ -1,17 +1,28 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import GridContainer from "./View/GridContainer";
-import Header from "./View/Header";
-
+//import redux
+import { Provider } from "react-redux";
+import store from "./back_end/Model/redux/store"
+//import components
+import GridContainer from "./front_end/View/GridContainer";
+import Header from "./front_end/View/Header";
+//import notification
+import { alertManager } from "./Helper/AlertManager";
+import DropdownAlert from "react-native-dropdownalert";
+//import navigation
+import Navigation from "./front_end/View/navigation/navigation";
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Header title="My React Native App" />
-      <Text>Open up App.js to start working on your app!</Text>
-      <GridContainer />
-      <StatusBar style="auto" />
-  
-    </View>
+    <Provider store={store}>
+      <Navigation/>
+      <DropdownAlert
+        alert={(func) =>
+          // Set the alert function in AlertManager.
+          // This function is provided by DropdownAlert and is used to display alerts.
+          alertManager.setAlertFunction(func)
+        }
+      />
+    </Provider>
   );
 }
 
