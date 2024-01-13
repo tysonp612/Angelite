@@ -10,6 +10,7 @@ export default function App() {
       <Text>Open up App.js to start working on your app!</Text>
       <GridContainer />
       <StatusBar style="auto" />
+  
     </View>
   );
 }
@@ -20,5 +21,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    
   },
 });
