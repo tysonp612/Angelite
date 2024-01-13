@@ -1,6 +1,11 @@
+
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
 //React
 import React, { useState, useEffect } from "react";
-import DropdownAlert from "react-native-dropdownalert";
 import {
   View,
   Text,
@@ -11,12 +16,17 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 //Component
 import DurationPicker from "./../components/services/durationPicker";
 import GeneralButton from "./../components/generalButton";
 import { alertManager } from "./../../Model/AlertManager";
+//axios
+import createService from './../../Control/axios_request/services'
+import { parse } from 'dotenv';
+
+
 const ServiceCreateScreen = () => {
+  //variables setup
   const [serviceName, setServiceName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -24,6 +34,8 @@ const ServiceCreateScreen = () => {
   const [duration, setDuration] = useState({ hours: "1", minutes: "0" });
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const navigation = useNavigation();
+
+  //merthods
   const openPicker = () => {
     if (isPickerVisible === false) {
       setIsPickerVisible(true);
@@ -42,8 +54,22 @@ const ServiceCreateScreen = () => {
     }
   };
 
-  const handleButtonPress = async () => {
+  const handleSubmit = async () => {
     await alertManager.showAlert("error", "OOps", "check error handling");
+
+    const serviceData = {
+      service:serviceName,
+      price:parseFloat(price),
+      color:color,
+      duration:parseInt(duration.hours)*60+parseInt(duration.minutes)
+    }
+
+    try{
+      const response = await createService(serviceData);
+      alertManager.showAlert("success", "Success", "Service created successfully");
+    }catch(err){
+      alertManager.showAlert("error", "Error", error.message);
+    }
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
@@ -124,7 +150,7 @@ const ServiceCreateScreen = () => {
 
       <GeneralButton
         title="Submit Service"
-        onPress={() => handleButtonPress()}
+        onPress={() => handleSubmit()}
       />
     </View>
   );

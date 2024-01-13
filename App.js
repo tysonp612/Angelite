@@ -7,15 +7,12 @@ import store from "./Model/redux/store"
 import GridContainer from "./View/GridContainer";
 import Header from "./View/Header";
 
+//import navigation
+import Navigation from "./View/navigation/navigation";
 export default function App() {
   return (
     <Provider store={store}>
-      <View style={styles.container}>
-        <Header title="My React Native App" />
-        <Text>Open up App.js to start working on your app!</Text>
-        <GridContainer />
-        <StatusBar style="auto" />
-      </View>
+      <Navigation/>
     </Provider>
   );
 }

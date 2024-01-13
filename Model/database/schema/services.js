@@ -14,6 +14,10 @@ const servicesSchema = new mongoose.Schema({
     type: String,
     require: [true, "Each service must have a color"],
   },
+  duration:{
+    type:Number,
+    required:[true,"Duration in minutes is required"]
+  }
 });
 
 export default mongoose.model("Services", servicesSchema);
