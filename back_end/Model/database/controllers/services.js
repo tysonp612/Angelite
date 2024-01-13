@@ -1,4 +1,4 @@
-import Services from "./../schema/services.js";
+import Services from "../schema/services.js";
 
 export const createService = async (req, res) => {
   try {

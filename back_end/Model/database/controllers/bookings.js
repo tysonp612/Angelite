@@ -1,4 +1,4 @@
-import Bookings from "./../schema/bookings.js";
+import Bookings from "../schema/bookings.js";
 
 // Options to populate (includes) when querying for bookings
 const populateOptions = [

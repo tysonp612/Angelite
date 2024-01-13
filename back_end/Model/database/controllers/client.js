@@ -1,4 +1,4 @@
-import Client from "./../schema/client.js";
+import Client from "../schema/client.js";
 
 export const createClient = async (req, res) => {
   try {

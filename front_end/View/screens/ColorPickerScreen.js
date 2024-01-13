@@ -4,7 +4,7 @@ import { View, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 
 
 //import components
-import ColorContainer from "./../components/services/colorContainer";
+import ColorContainer from "../components/services/colorContainer";
 import { useNavigation } from "@react-navigation/native";
 
 

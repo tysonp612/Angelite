@@ -1,6 +1,6 @@
 
 import { LogBox } from 'react-native';
-
+import { API_URL } from '@env';
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
 ]);
@@ -17,12 +17,11 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 //Component
-import DurationPicker from "./../components/services/durationPicker";
-import GeneralButton from "./../components/generalButton";
-import { alertManager } from "./../../Model/AlertManager";
+import DurationPicker from "../components/services/durationPicker";
+import GeneralButton from "../components/generalButton";
+import { alertManager } from "../../../back_end/Model/AlertManager";
 //axios
-import createService from './../../Control/axios_request/services'
-import { parse } from 'dotenv';
+import createService from '../../../back_end/Control/axios_request/services'
 
 
 const ServiceCreateScreen = () => {
@@ -34,6 +33,7 @@ const ServiceCreateScreen = () => {
   const [duration, setDuration] = useState({ hours: "1", minutes: "0" });
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const navigation = useNavigation();
+
 
   //merthods
   const openPicker = () => {
@@ -63,13 +63,13 @@ const ServiceCreateScreen = () => {
       color:color,
       duration:parseInt(duration.hours)*60+parseInt(duration.minutes)
     }
-
-    try{
-      const response = await createService(serviceData);
-      alertManager.showAlert("success", "Success", "Service created successfully");
-    }catch(err){
-      alertManager.showAlert("error", "Error", error.message);
-    }
+    console.log(API_URL);
+    // try{
+    //   const response = await createService(serviceData);
+    //   alertManager.showAlert("success", "Success", "Service created successfully");
+    // }catch(err){
+    //   alertManager.showAlert("error", "Error", err.message);
+    // }
   };
 
   const handleDurationChange = (selectedHours, selectedMinutes) => {
