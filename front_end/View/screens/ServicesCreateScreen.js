@@ -10,7 +10,7 @@ import {
   View,
   Text,
   TextInput,
-  Modal,
+  ScrollView,
   TouchableOpacity,
   Button,
   StyleSheet,
@@ -63,6 +63,7 @@ const ServiceCreateScreen = () => {
     }
     try{
       const response = await createService(serviceData);
+      navigation.navigate("Services");
       await alertManager.showAlert("success", "Success", "Service created successfully");
       
     }catch(err){
@@ -77,80 +78,82 @@ const ServiceCreateScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* ######################  NAME ################### */}
 
-      <Text style={styles.label}>Service Name:</Text>
-      <TextInput
-        style={styles.input}
-        value={serviceName}
-        onChangeText={(text) => setServiceName(text)}
-      />
+      <ScrollView>
+        {/* ######################  NAME ################### */}
+        <Text style={styles.label}>Service Name:</Text>
+        <TextInput
+          style={styles.input}
+          value={serviceName}
+          onChangeText={(text) => setServiceName(text)}
+        />
 
-      {/* ###################### DESCRIPTION ################### */}
-      <Text style={styles.label}>Description (optional): </Text>
-      <TextInput
-        style={styles.input}
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-      />
+        {/* ###################### DESCRIPTION ################### */}
+        <Text style={styles.label}>Description (optional): </Text>
+        <TextInput
+          style={styles.input}
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+        />
 
-      {/* ###################### {PRICE} ################### */}
-      <Text style={styles.label}>Price:</Text>
-      <TextInput
-        style={styles.input}
-        value={price}
-        onChangeText={handlePriceChange}
-        keyboardType="numeric"
-      />
+        {/* ###################### {PRICE} ################### */}
+        <Text style={styles.label}>Price:</Text>
+        <TextInput
+          style={styles.input}
+          value={price}
+          onChangeText={handlePriceChange}
+          keyboardType="numeric"
+        />
 
-      {/* ######################  COLOR ################### */}
-      <Text style={styles.label}>Color:</Text>
+        {/* ######################  COLOR ################### */}
+        <Text style={styles.label}>Color:</Text>
 
-      <TouchableOpacity
-        style={styles.colorInput}
-        onPress={() =>
-          navigation.navigate("Color Picker", {
-            setColor: setColor,
-            color: color,
-          })
-        }
-      >
-        <View style={[styles.colorPreview, { backgroundColor: color }]} />
-        <Text>{color}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.colorInput}
+          onPress={() =>
+            navigation.navigate("Color Picker", {
+              setColor: setColor,
+              color: color,
+            })
+          }
+        >
+          <View style={[styles.colorPreview, { backgroundColor: color }]} />
+          <Text>{color}</Text>
+        </TouchableOpacity>
 
-      {/* ###################### DURATION ################### */}
-      <Text style={styles.label}>Duration:</Text>
-      <TouchableOpacity
-        style={styles.durationInput}
-        onPress={() => openPicker()}
-      >
-        <View style={styles.durationInfoContainer}>
-          <Text
-            style={styles.durationInfo}
-          >{`${duration.hours} hours ${duration.minutes} minutes`}</Text>
+        {/* ###################### DURATION ################### */}
+        <Text style={styles.label}>Duration:</Text>
+        <TouchableOpacity
+          style={styles.durationInput}
+          onPress={() => openPicker()}
+        >
+          <View style={styles.durationInfoContainer}>
+            <Text
+              style={styles.durationInfo}
+            >{`${duration.hours} hours ${duration.minutes} minutes`}</Text>
+            {isPickerVisible ? (
+              <Button title="X" onPress={() => closePicker()} />
+            ) : (
+              ""
+            )}
+          </View>
+          {/* show the expaned picker component for hour and miniute based on isPickerVisible  */}
           {isPickerVisible ? (
-            <Button title="X" onPress={() => closePicker()} />
+            <DurationPicker
+              hours={duration.hours}
+              minutes={duration.minutes}
+              onDurationChange={handleDurationChange}
+            />
           ) : (
             ""
           )}
-        </View>
-        {/* show the expaned picker component for hour and miniute based on isPickerVisible  */}
-        {isPickerVisible ? (
-          <DurationPicker
-            hours={duration.hours}
-            minutes={duration.minutes}
-            onDurationChange={handleDurationChange}
-          />
-        ) : (
-          ""
-        )}
-      </TouchableOpacity>
+        </TouchableOpacity>
 
-      <GeneralButton
-        title="Submit Service"
-        onPress={() => handleSubmit()}
-      />
+        <GeneralButton
+          title="Submit Service"
+          onPress={() => handleSubmit()}
+        />
+      </ScrollView>
     </View>
   );
 };
