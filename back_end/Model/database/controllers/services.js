@@ -8,6 +8,7 @@ export const createService = async (req, res) => {
 			price,
 			color,
 			duration,
+			description,
 		});
 		res.status(201).json({ service: newService, message: "Service created" });
 	} catch (err) {
@@ -17,11 +18,9 @@ export const createService = async (req, res) => {
 
 export const getAllServices = async (req, res) => {
 	try {
-		console.log("AAA");
 		const services = await Services.find();
 		res.status(200).json({ services });
 	} catch (err) {
-		console.log("AAA");
 		res.status(500).json({ message: err.message });
 	}
 };

@@ -1,27 +1,37 @@
-import { View, Text, StyleSheet } from "react-native";
-const ServiceContainer = ({ service }) => {
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+const ServiceContainer = ({ service, state, id }) => {
 	if (!service) {
 		return null; // or some placeholder view
 	}
+	const navigation = useNavigation();
 	return (
-		<View>
-			<View key={service._id} style={styles.container}>
-				<View style={styles.colorContainer}>
-					<View
-						style={[styles.colorCircle, { backgroundColor: service.color }]}
-					/>
-				</View>
-				<View style={styles.textContainer}>
-					<Text style={styles.boldText}>{service.service}</Text>
-					<Text style={styles.normalText}>
-						{Math.floor(service.duration / 60)}h {service.duration % 60} min
-					</Text>
-				</View>
-				<View style={styles.priceContainer}>
-					<Text style={styles.priceText}>${service.price}</Text>
+		<TouchableOpacity
+			onPress={() => {
+				state === "editService"
+					? navigation.navigate("Service Edit", { id: id })
+					: console.log("CLOSE");
+			}}
+		>
+			<View>
+				<View key={service._id} style={styles.container}>
+					<View style={styles.colorContainer}>
+						<View
+							style={[styles.colorCircle, { backgroundColor: service.color }]}
+						/>
+					</View>
+					<View style={styles.textContainer}>
+						<Text style={styles.boldText}>{service.service}</Text>
+						<Text style={styles.normalText}>
+							{Math.floor(service.duration / 60)}h {service.duration % 60} min
+						</Text>
+					</View>
+					<View style={styles.priceContainer}>
+						<Text style={styles.priceText}>${service.price}</Text>
+					</View>
 				</View>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 const styles = StyleSheet.create({

@@ -20,9 +20,10 @@ import DurationPicker from "../components/services/durationPicker";
 import GeneralButton from "../components/generalButton";
 import { alertManager } from "../../../Helper/AlertManager";
 //axios
-import { createService } from "./../../../back_end/Control/axios_request/services";
+import { findService } from "./../../../back_end/Control/axios_request/services";
 
-const ServiceCreateScreen = () => {
+//Prop passed by naviation can also be used using { route, navigation }
+const ServiceEditScreen = ({ route, navigation }) => {
 	//variables setup
 	const [serviceName, setServiceName] = useState("");
 	const [price, setPrice] = useState("");
@@ -30,8 +31,29 @@ const ServiceCreateScreen = () => {
 	const [color, setColor] = useState("red");
 	const [duration, setDuration] = useState({ hours: "1", minutes: "0" });
 	const [isPickerVisible, setIsPickerVisible] = useState(false);
-	const navigation = useNavigation();
 
+	const { id } = route.params;
+
+	useEffect(() => {
+		//load the information of the id passed
+		loadServiceData(id);
+	}, []);
+
+	const loadServiceData = async (id) => {
+		try {
+			findService(id).then((res) => {
+				setServiceName(res.data.service.service);
+				setPrice(res.data.service.price.toString());
+				setColor(res.data.service.color);
+				const hours = Math.floor(res.data.service.duration / 60).toString(); // Converts hours to string
+				const minutes = (res.data.service.duration % 60).toString();
+				setDuration({ hours: hours, minutes: minutes });
+				setDescription(res.data.service.description);
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
 	//methods
 	const openPicker = () => {
 		if (isPickerVisible === false) {
@@ -214,4 +236,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ServiceCreateScreen;
+export default ServiceEditScreen;

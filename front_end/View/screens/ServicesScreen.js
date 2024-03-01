@@ -40,7 +40,12 @@ const ServicesScreen = ({ navigation }) => {
 				>
 					{services &&
 						services.map((service) => (
-							<ServiceContainer key={service._id} service={service} />
+							<ServiceContainer
+								key={service._id}
+								service={service}
+								state="editService"
+								id={service._id}
+							/>
 						))}
 				</View>
 			</ScrollView>
