@@ -2,7 +2,8 @@ import Services from "../schema/services.js";
 
 export const createService = async (req, res) => {
 	try {
-		const { service, price, color, duration } = req.body.serviceData;
+		const { service, price, color, duration, description } =
+			req.body.serviceData;
 		const newService = await Services.create({
 			service,
 			price,
@@ -59,15 +60,14 @@ export const findService = async (req, res) => {
 // THIS EDIT NEEDS TO BE TESTED AND CHANGED TO REDUCE BANDWIDTH FOR UPDATING DATA
 export const editService = async (req, res) => {
 	try {
-		const { id, serviceData } = req.body;
-
-		if (!id) {
+		const { serviceId, serviceData } = req.body;
+		if (!serviceId) {
 			return res
 				.status(400)
 				.json({ message: "Service ID is required for editing" });
 		}
-		// find the service by ID
-		const service = await Services.findByIdAndUpdate(id, serviceData, {
+		// find the serv ice by ID
+		const service = await Services.findByIdAndUpdate(serviceId, serviceData, {
 			new: true,
 		});
 		// Check if service was found and updated

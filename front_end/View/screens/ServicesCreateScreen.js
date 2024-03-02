@@ -57,6 +57,7 @@ const ServiceCreateScreen = () => {
 			price: parseFloat(price),
 			color: color,
 			duration: parseInt(duration.hours) * 60 + parseInt(duration.minutes),
+			description: description,
 		};
 		try {
 			console.log(serviceData);

@@ -14,13 +14,16 @@ import {
 	Button,
 	StyleSheet,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 //Component
 import DurationPicker from "../components/services/durationPicker";
 import GeneralButton from "../components/generalButton";
 import { alertManager } from "../../../Helper/AlertManager";
 //axios
-import { findService } from "./../../../back_end/Control/axios_request/services";
+import {
+	findService,
+	editService,
+	deleteService,
+} from "./../../../back_end/Control/axios_request/services";
 
 //Prop passed by naviation can also be used using { route, navigation }
 const ServiceEditScreen = ({ route, navigation }) => {
@@ -73,24 +76,37 @@ const ServiceEditScreen = ({ route, navigation }) => {
 		}
 	};
 
-	const handleSubmit = async () => {
+	const handleEdit = async () => {
 		const serviceData = {
 			service: serviceName,
 			price: parseFloat(price),
 			color: color,
+			description: description,
 			duration: parseInt(duration.hours) * 60 + parseInt(duration.minutes),
 		};
 		try {
-			console.log(serviceData);
-			const response = await createService(serviceData);
+			const response = await editService(id, serviceData);
 			navigation.navigate("Services");
 			await alertManager.showAlert(
 				"success",
 				"Success",
-				"Service created successfully"
+				"Service edited successfully"
 			);
 		} catch (err) {
-			console.log(err);
+			await alertManager.showAlert("error", "Error", err.message);
+		}
+	};
+
+	const handleDelete = async () => {
+		try {
+			const response = await deleteService(id);
+			navigation.navigate("Services");
+			await alertManager.showAlert(
+				"success",
+				"Success",
+				"Service deleted successfully"
+			);
+		} catch (err) {
 			await alertManager.showAlert("error", "Error", err.message);
 		}
 	};
@@ -171,7 +187,12 @@ const ServiceEditScreen = ({ route, navigation }) => {
 					)}
 				</TouchableOpacity>
 
-				<GeneralButton title="Submit Service" onPress={() => handleSubmit()} />
+				<GeneralButton title="Edit Service" onPress={() => handleEdit()} />
+				<GeneralButton
+					title="Delete Service"
+					onPress={() => handleDelete()}
+					state="delete"
+				/>
 			</ScrollView>
 		</View>
 	);
